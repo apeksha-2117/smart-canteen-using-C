@@ -1,0 +1,6 @@
+Token:100 Item:Samosa Qty:7 Total:105.00
+Token:100 Item:Panipuri Qty:20 Total:600.00
+Token:101 Item:Kachori Qty:3 Total:60.00
+Token:100 Item:Sandwich Qty:5 Total:200.00
+Token:101 Item:Samosa Qty:20 Total:300.00
+Token:102 Item:Pizza Qty:7 Total:840.00

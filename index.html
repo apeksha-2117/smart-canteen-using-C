@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Canteen Management Console</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- SVG Icon Sprite Definitions -->
+    <svg style="display: none;">
+        <symbol id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="4"></circle>
+            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></symbol>
+        <symbol id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></symbol>
+        <symbol id="icon-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+        </symbol>
+        <symbol id="icon-terminal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="4 17 10 11 4 5"></polyline>
+            <line x1="12" y1="19" x2="20" y2="19"></line>
+        </symbol>
+        <symbol id="icon-cart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="8" cy="21" r="1"></circle>
+            <circle cx="19" cy="21" r="1"></circle>
+            <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></symbol>
+        <symbol id="icon-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+            <polyline points="7 10 12 15 17 10"></polyline>
+            <line x1="12" y1="15" x2="12" y2="3"></line>
+        </symbol>
+        <symbol id="icon-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+        </symbol>
+        <symbol id="icon-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+        </symbol>
+    </svg>
+
+    <!-- HEADER NAVIGATION -->
+    <header>
+        <div class="brand">
+            <span class="brand-icon">⚡</span>
+            <div class="brand-title">SmartCanteen</div>
+        </div>
+
+        <div class="header-controls">
+            <!-- Mode Switch Tabs -->
+            <div class="view-tabs">
+                <button class="tab-btn active" id="btn-customer-view" onclick="switchView('customer')">
+                    <svg><use href="#icon-user"></use></svg>
+                    Customer Menu
+                </button>
+                <button class="tab-btn" id="btn-staff-view" onclick="switchView('staff')">
+                    <svg><use href="#icon-terminal"></use></svg>
+                    Staff Terminal
+                </button>
+            </div>
+
+            <!-- Current Time -->
+            <div class="system-time" id="system-time">16:15:00</div>
+
+            <!-- Theme Toggle -->
+            <button class="icon-btn" id="theme-toggle" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+                <svg id="theme-icon-light" style="display:none;"><use href="#icon-sun"></use></svg>
+                <svg id="theme-icon-dark"><use href="#icon-moon"></use></svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN VIEWPORTS -->
+    <main>
+        
+        <!-- SECTION A: CUSTOMER VIEWS -->
+        <section id="customer-view" class="view-section active">
+            <!-- Food Selection Grid -->
+            <div class="menu-container">
+                <h2 class="section-title">Today's Menu Selection</h2>
+                <div class="menu-grid" id="food-menu-grid">
+                    <!-- Cards will be dynamically injected by JavaScript -->
+                </div>
+            </div>
+
+            <!-- Side Cart Panel -->
+            <div class="cart-panel">
+                <div class="cart-title">
+                    <span>Selected Orders</span>
+                    <span class="cart-count" id="cart-item-count">0 Items</span>
+                </div>
+
+                <div class="cart-items" id="cart-items-container">
+                    <!-- Dynamic Cart items -->
+                    <div class="cart-empty" id="cart-empty-state">
+                        <span style="font-size: 3rem;">🛒</span>
+                        <p>Your cart is empty. Pick items from the food menu to create an order receipt.</p>
+                    </div>
+                </div>
+
+                <div class="cart-summary">
+                    <div class="summary-row">
+                        <span>Base Total</span>
+                        <span id="cart-base-total">Rs 0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tax & Service</span>
+                        <span>Rs 0.00</span>
+                    </div>
+                    <div class="summary-row total">
+                        <span>Total Due</span>
+                        <span class="total-amount" id="cart-final-total">Rs 0.00</span>
+                    </div>
+
+                    <button class="checkout-btn" id="place-order-btn" onclick="checkoutOrder()" disabled>
+                        Place Canteen Order & Print Token
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION B: STAFF TERMINAL -->
+        <section id="staff-view" class="view-section">
+            <!-- Queue Management Dashboard -->
+            <div class="queue-panel">
+                <div class="queue-header">
+                    <h2 class="section-title">Real-Time Kitchen Queue</h2>
+                </div>
+
+                <!-- Next-in-Line Spotlighter -->
+                <div class="serve-action-container">
+                    <span class="active-serve-title">Serving Priority Control</span>
+                    <div class="active-serve-display">
+                        <div>
+                            <div class="active-serve-token" id="serve-active-token">Token: --</div>
+                            <div style="font-size: 0.875rem; color: var(--text-secondary);" id="serve-active-details">No pending items in queue</div>
+                        </div>
+                        <button class="serve-btn" id="serve-order-btn" onclick="dispatchServe()" disabled>
+                            <svg style="width:1.1rem; height:1.1rem; fill:currentColor;"><use href="#icon-check"></use></svg>
+                            Serve Order
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Queue Items -->
+                <div class="queue-list" id="queue-items-container">
+                    <!-- Filled by JS -->
+                </div>
+            </div>
+
+            <!-- Stats and History Panel -->
+            <div class="analytics-panel">
+                <h2 class="section-title">Terminal Reports</h2>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-title">Daily Revenue</span>
+                        <span class="stat-value sales" id="stat-total-sales">Rs 0.00</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-title">Orders Processed</span>
+                        <span class="stat-value" id="stat-orders-count">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-title">Queue Waitlist</span>
+                        <span class="stat-value queue" id="stat-queue-size">0</span>
+                    </div>
+                </div>
+
+                <!-- Sales File Log -->
+                <div class="report-panel">
+                    <div class="report-header">
+                        <span class="stat-title">Log output (sales.txt stream)</span>
+                        <button class="btn-secondary" onclick="exportSalesLog()">
+                            <svg style="width: 1rem; height: 1rem; fill: currentColor;"><use href="#icon-download"></use></svg>
+                            Save sales.txt
+                        </button>
+                    </div>
+                    
+                    <div class="report-logs" id="report-logs-container">
+                        <!-- Simulated text file streams -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- CUSTOM POPUP BILL RECEIPT MODAL -->
+    <div class="receipt-modal" id="receipt-modal">
+        <div class="receipt-card">
+            <div class="receipt-header">
+                <h3>SMART CANTEEN LTD.</h3>
+                <p>ORDER TRANSACTION SLIP</p>
+                <div class="receipt-token-badge" id="receipt-token-val">100</div>
+            </div>
+
+            <div class="receipt-body">
+                <div class="receipt-row">
+                    <span>DATE: <span id="receipt-date">2026-05-21</span></span>
+                    <span>TIME: <span id="receipt-time">16:15</span></span>
+                </div>
+                <div class="receipt-row divider"></div>
+                <div id="receipt-items-list">
+                    <!-- Items injected by JS -->
+                </div>
+                <div class="receipt-row divider"></div>
+                <div class="receipt-row total">
+                    <span>NET TOTAL:</span>
+                    <span id="receipt-total-val">Rs 0.00</span>
+                </div>
+            </div>
+
+            <div class="receipt-footer">
+                <p>Thank you for your order!</p>
+                <p>Please present this receipt token to the kitchen counter to collect your meal.</p>
+            </div>
+
+            <button class="receipt-close-btn" onclick="closeReceiptModal()">Close Receipt</button>
+        </div>
+    </div>
+
+    <!-- AUDIO EFFECTS -->
+    <script src="app.js"></script>
+</body>
+</html>
