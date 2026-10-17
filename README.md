@@ -7,8 +7,7 @@ A console-based **Smart Canteen Token & Billing Management System** developed in
 
 ---
 
-https://vercel.com/bit-rebels1/smart-canteen-using-c/HZcdbwocgTN9Bf3pF4pYYqtafS9z
-
+https://smart-canteen-using-c.vercel.app/
 
 ## 🚀 Key Features & Highlights
 
