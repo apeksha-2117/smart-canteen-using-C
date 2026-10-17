@@ -36,3 +36,5 @@ smart-canteen-using-C/
 ├── main.c          # Core program entry point, menu loops, and token counter logic
 ├── canteen.h       # Header file containing structure definitions and function prototypes (if split)
 └── README.md       # Project documentation
+
+https://vercel.com/bit-rebels1/smart-canteen-using-c/HZcdbwocgTN9Bf3pF4pYYqtafS9z
