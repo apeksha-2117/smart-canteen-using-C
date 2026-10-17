@@ -1,9 +1,14 @@
 # smart-canteen-using-C
 # 🛒 Smart Canteen Token & Billing Management System
 
+
+
 A console-based **Smart Canteen Token & Billing Management System** developed in **C**. This project streamlines the traditional canteen ordering process by digitizing menu browsing, order placement, automated billing calculations, and a sequential token generation system to minimize queues and manual errors.
 
 ---
+
+https://vercel.com/bit-rebels1/smart-canteen-using-c/HZcdbwocgTN9Bf3pF4pYYqtafS9z
+
 
 ## 🚀 Key Features & Highlights
 
@@ -26,6 +31,7 @@ A console-based **Smart Canteen Token & Billing Management System** developed in
   - Structures (`struct`) for managing menu items, carts, and customer order records
   - State tracking for sequential token numbering
 
+
 ---
 
 ## 📂 Project Structure
@@ -37,4 +43,3 @@ smart-canteen-using-C/
 ├── canteen.h       # Header file containing structure definitions and function prototypes (if split)
 └── README.md       # Project documentation
 
-https://vercel.com/bit-rebels1/smart-canteen-using-c/HZcdbwocgTN9Bf3pF4pYYqtafS9z
